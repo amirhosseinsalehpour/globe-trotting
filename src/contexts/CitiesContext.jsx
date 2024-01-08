@@ -7,6 +7,7 @@ function CitiesProvider({ children }) {
   const [cities, setCities] = useState([]);
 
   const [isLoading, setLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState({});
 
   useEffect(function () {
     async function fetchCities() {
@@ -23,11 +24,27 @@ function CitiesProvider({ children }) {
     }
     fetchCities();
   }, []);
+
+  async function getCities(id) {
+    try {
+      setLoading(true);
+      const res = await fetch(`${BaseUrl}/cities/${id}`);
+      const data = await res.json();
+      setCurrentCity(data);
+    } catch {
+      alert("There was an error loadin data...");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
       value={{
         cities,
         isLoading,
+        currentCity,
+        getCities,
       }}
     >
       {children}
@@ -42,4 +59,5 @@ function useCities() {
   return context;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { CitiesProvider, useCities };

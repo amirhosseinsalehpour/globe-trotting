@@ -60,4 +60,4 @@ function useCities() {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export { CitiesProvider, useCities };
+export { CitiesProvider, useCities};
